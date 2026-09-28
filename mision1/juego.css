@@ -90,3 +90,16 @@ body.oscuro #resultado {
 body.oscuro .jugadorBox p {
     color: #f1faee;
 }
+
+#avisoModo {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.85rem;
+    color: #1d3557;
+    margin: 0;
+}
+
+body.oscuro #avisoModo {
+    color: #f1faee;
+}

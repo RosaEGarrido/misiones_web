@@ -1,5 +1,5 @@
 document.addEventListener("keydown", (event) => {
-    if (event.key === "m") {
+    if (event.key === "d" || event.key === "m") {
         document.body.classList.toggle("oscuro");
     }
 });
