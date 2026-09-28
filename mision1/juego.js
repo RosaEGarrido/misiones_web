@@ -16,5 +16,13 @@ function seleccionar(jugador) {
         resultado = "Perdiste";
     }
 
+    const imgJugador = document.getElementById("imgJugador");
+    const imgMaquina = document.getElementById("imgMaquina");
+
+    imgJugador.src = jugador + ".png";
+    imgMaquina.src = pc + ".png";
+    imgJugador.style.display = "block";
+    imgMaquina.style.display = "block";
+
     document.getElementById("resultado").textContent = resultado;
 }
