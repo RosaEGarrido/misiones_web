@@ -1,3 +1,9 @@
+document.addEventListener("keydown", (event) => {
+    if (event.key === "m") {
+        document.body.classList.toggle("oscuro");
+    }
+});
+
 function seleccionar(jugador) {
     const opciones = ["piedra", "papel", "tijera"];
     const pc = opciones[Math.floor(Math.random() * 3)];

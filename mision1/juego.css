@@ -7,6 +7,7 @@ body {
     align-items: center;
     background-color: #7a95e4;
     font-family: Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 h1 {
@@ -49,6 +50,15 @@ h1 {
     background-image: url("tijera.png");
 }
 
+body.oscuro {
+    background-color: #1d1d1d;
+}
+
+body.oscuro h1,
+body.oscuro #resultado {
+    color: #f1faee;
+}
+
 .elecciones {
     display: flex;
     gap: 30px;
@@ -75,4 +85,8 @@ h1 {
     font-weight: bold;
     color: #3107af91;
     margin-bottom: 8px;
+}
+
+body.oscuro .jugadorBox p {
+    color: #f1faee;
 }
