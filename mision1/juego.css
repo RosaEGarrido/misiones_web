@@ -1,0 +1,45 @@
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #7a95e4;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #3107af91;
+    margin-top: 40px;
+}
+
+.botones {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.boton {
+    width: 80px;
+    height: 80px;
+    border: none;
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    text-indent: -9999px;
+    overflow: hidden;
+}
+
+#piedra {
+    background-image: url("piedra.png");
+}
+
+#papel {
+    background-image: url("papel.png");
+}
+
+#tijera {
+    background-image: url("tijera.png");
+}
