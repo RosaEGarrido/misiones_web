@@ -9,10 +9,14 @@
 <body>
     <h1>Piedra, Papel o Tijera</h1>
 
+    <p id="resultado"></p>
+
     <div class="botones">
-        <button id="piedra" class="boton"></button>
-        <button id="papel" class="boton"></button>
-        <button id="tijera" class="boton"></button>
+        <button id="piedra" class="boton" onclick="seleccionar('piedra')"></button>
+        <button id="papel" class="boton" onclick="seleccionar('papel')"></button>
+        <button id="tijera" class="boton" onclick="seleccionar('tijera')"></button>
     </div>
+
+    <script src="juego.js"></script>
 </body>
 </html>
