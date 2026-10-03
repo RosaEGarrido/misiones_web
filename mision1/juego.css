@@ -11,6 +11,9 @@ body {
 }
 
 h1 {
+    font-family: "Bangers", cursive;
+    font-size: 3rem;
+    letter-spacing: 2px;
     color: #3107af91;
     margin-top: 40px;
 }
@@ -48,6 +51,27 @@ h1 {
 
 #tijera {
     background-image: url("tijera.png");
+}
+
+#cambiarModo {
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #3107af;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#cambiarModo:hover {
+    background-color: #4a1fd6;
+    transform: scale(1.05);
+}
+
+body.oscuro #cambiarModo {
+    background-color: #e07a5f;
 }
 
 body.oscuro {
@@ -101,5 +125,106 @@ body.oscuro .jugadorBox p {
 }
 
 body.oscuro #avisoModo {
+    color: #f1faee;
+}
+
+.oculto {
+    display: none;
+}
+
+body.modoExtendido #lagarto {
+    background-image: url("lagarto-bigbang.png");
+}
+
+body.modoExtendido #spock {
+    background-image: url("spock-bigbang.png");
+}
+
+body.modoExtendido {
+    background-color: #e07a5f;
+}
+
+body.modoExtendido #piedra {
+    background-image: url("piedra-bigbang.png");
+}
+
+body.modoExtendido #papel {
+    background-image: url("papel-bigbang.png");
+}
+
+body.modoExtendido #tijera {
+    background-image: url("tijera-bigbang.png");
+}
+
+body.modoExtendido h1,
+body.modoExtendido #resultado,
+body.modoExtendido .jugadorBox p {
+    color: white;
+}
+
+#instrucciones {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 350px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+#cerrarInstrucciones {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+body.oscuro #instrucciones {
+    background: #1d1d1d;
+    color: #f1faee;
+}
+
+#verInstrucciones {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #3107af;
+    background-color: white;
+    color: #3107af;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#verInstrucciones:hover {
+    background-color: #3107af;
+    color: white;
+    transform: scale(1.1);
+}
+
+body.oscuro #verInstrucciones {
+    border-color: #f1faee;
+    color: #f1faee;
+    background-color: #1d1d1d;
+}
+
+body.oscuro #verInstrucciones:hover {
+    background-color: #f1faee;
+    color: #1d1d1d;
+}
+
+body.oscuro.modoExtendido {
+    background-color: #1d1d1d;
+}
+
+body.oscuro.modoExtendido h1,
+body.oscuro.modoExtendido #resultado,
+body.oscuro.modoExtendido .jugadorBox p {
     color: #f1faee;
 }
