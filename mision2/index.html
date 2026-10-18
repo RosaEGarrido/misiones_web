@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estantería · Buscador de libros</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="cabecera__interior">
+        <h1>Estantería</h1>
+        <p>Busca un libro y guárdalo en tu biblioteca.</p>
+        <form id="form-busqueda" class="busqueda">
+          <input id="q" type="search" placeholder="Título o autor" autocomplete="off" required />
+          <button type="submit">Buscar</button>
+        </form>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="resultados" aria-label="Resultados de búsqueda">
+        <div class="barra">
+          <label class="check">
+            <input type="checkbox" id="solo-portada" />
+            Solo con portada
+          </label>
+          <label class="orden">
+            Ordenar por
+            <select id="orden">
+              <option value="relevancia">Relevancia</option>
+              <option value="anio-desc">Más recientes</option>
+              <option value="anio-asc">Más antiguos</option>
+              <option value="ediciones">Más ediciones</option>
+            </select>
+          </label>
+        </div>
+        <div id="estado" class="estado" role="status" aria-live="polite"></div>
+        <div id="resultados" class="rejilla"></div>
+      </section>
+
+      <aside class="biblioteca" aria-label="Mi biblioteca">
+        <h2>Mi biblioteca</h2>
+        <div class="pestanas" role="tablist">
+          <button class="pestana activa" data-tab="quiero" role="tab">Quiero leer</button>
+          <button class="pestana" data-tab="leido" role="tab">Leídos</button>
+        </div>
+        <div id="biblioteca" class="lista"></div>
+      </aside>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
