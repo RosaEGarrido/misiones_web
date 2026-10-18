@@ -64,3 +64,30 @@ mision2/
 - La caché guarda la fecha de cada entrada y, pasados 10 minutos, la descarta y vuelve a pedir los datos.
 - He usado `map`, `filter`, `reduce`, `sort`, `find` y `flat` para preparar los datos, filtrar, ordenar y calcular las estadísticas.
 - Los textos que vienen de la API y los comentarios se escapan antes de meterlos en el HTML.
+
+## Uso de IA
+
+Para esta misión he usado IA: Claude, de Anthropic, a través de su chat web. Casi todo el código lo ha escrito la IA, y lo declaro aquí.
+
+**Qué le he delegado**
+
+- Ideas para la app y para elegir la API. Le pedí ideas y yo elegí Open Library con un buscador de libros.
+- La estructura del proyecto en módulos y el código del HTML, el CSS y el JavaScript: buscador, caché, biblioteca, estrellas, comentarios, estadísticas, ficha del libro y filtros.
+- Ayuda con Vite, PowerShell/npm y Git (errores al arrancar el proyecto y al subir solo la misión 2 al repositorio).
+- Una primera versión de este README.
+
+**Prompts clave**
+
+1. "hazme el html, el css, y los js"
+2. "q salga una opcion para elegir entre los idiomas pero q puedas elegir mas de un idioma"
+
+**Cómo he verificado lo generado**
+
+- He ejecutado la web con `npm run dev` y la he probado en el navegador.
+- Probándola encontré fallos y se los comuniqué a la IA para corregirlos: la página salía en blanco porque mi `index.html` no era el correcto, y el filtro de idiomas devolvía libros en inglés aunque eligiera español.
+
+**Qué he hecho yo a mano**
+
+- Elegir la idea y la API, y decidir qué funcionalidades añadir (varios idiomas, biblioteca en otra página, estrellas, comentarios, estadísticas y filtros).
+- Crear el proyecto con Vite, colocar los archivos, probarlos y arreglar la estructura de carpetas.
+- Subir el trabajo a GitHub y separar la misión 1 y la misión 2 en el repositorio.
