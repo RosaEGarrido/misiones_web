@@ -1,4 +1,4 @@
-const PREFIJO = "ol-cache:";
+const PREFIJO = "ol-cache2:";
 const DURACION_MS = 10 * 60 * 1000;
 
 export function leerCache(clave) {

@@ -25,6 +25,7 @@ const contBiblioteca = document.querySelector("#biblioteca");
 const pestanas = document.querySelectorAll(".pestana");
 
 let resultados = [];
+let ultimaBusqueda = 0;
 let pestanaActiva = "quiero";
 
 function aplicarFiltros(libros) {
@@ -61,18 +62,27 @@ function pintarBiblioteca() {
   renderBiblioteca(obtenerBiblioteca(), pestanaActiva);
 }
 
+function idiomasElegidos() {
+  return [...document.querySelectorAll('input[name="idioma"]:checked')].map(
+    (casilla) => casilla.value
+  );
+}
+
 async function buscar(query) {
-  const clave = query.trim().toLowerCase();
+  const numero = ++ultimaBusqueda;
+  const idiomas = idiomasElegidos();
+  const clave = `${query.trim().toLowerCase()}|${idiomas.sort().join(",")}`;
   mostrarCargando();
 
   try {
     let libros = leerCache(clave);
 
     if (!libros) {
-      libros = await buscarLibros(query.trim());
+      libros = await buscarLibros(query.trim(), idiomas);
       guardarCache(clave, libros);
     }
 
+    if (numero !== ultimaBusqueda) return;
     resultados = libros;
 
     if (resultados.length === 0) {
@@ -103,6 +113,12 @@ function cambiarEstado(libro, accion) {
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   if (inputQ.value.trim()) buscar(inputQ.value);
+});
+
+document.querySelectorAll('input[name="idioma"]').forEach((casilla) => {
+  casilla.addEventListener("change", () => {
+    if (inputQ.value.trim()) buscar(inputQ.value);
+  });
 });
 
 checkPortada.addEventListener("change", () => {
