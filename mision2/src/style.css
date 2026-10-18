@@ -352,6 +352,156 @@ a:focus-visible {
   color: var(--latón);
 }
 
+.btn--ancho {
+  grid-column: 1 / -1;
+  background: var(--acento);
+  color: #fff;
+}
+
+.btn--ancho:hover {
+  background: var(--acento-oscuro);
+}
+
+.detalle {
+  width: min(560px, calc(100% - 2rem));
+  max-height: 90vh;
+  padding: 0;
+  border: 0;
+  border-top: 6px solid var(--latón);
+  border-radius: 4px;
+  background: var(--papel);
+  color: var(--tinta);
+  overflow-y: auto;
+}
+
+.detalle::backdrop {
+  background: rgba(23, 33, 43, 0.6);
+}
+
+.detalle__cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.25rem 0.75rem;
+}
+
+.detalle__cabecera h2 {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.detalle__cerrar {
+  padding: 0 0.5rem;
+  border: 0;
+  background: none;
+  color: var(--tinta-suave);
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+#detalle-contenido {
+  padding: 0 1.25rem 1.25rem;
+}
+
+.detalle__cuerpo {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.detalle__subtitulo {
+  margin: 1.25rem 0 0.5rem;
+  font-family: var(--fuente-titulo);
+  font-size: 1.1rem;
+}
+
+.comentarios {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.comentario {
+  padding: 0.7rem 0.85rem;
+  border-left: 3px solid var(--latón);
+  border-radius: 2px;
+  background: var(--fondo);
+}
+
+.comentario p {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.comentario__pie {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.4rem;
+  color: var(--tinta-suave);
+  font-size: 0.8rem;
+}
+
+.comentarios__vacio {
+  color: var(--tinta-suave);
+  font-size: 0.9rem;
+}
+
+.btn-texto {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--error);
+  font-size: 0.8rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.form-comentario {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.form-comentario label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.form-comentario textarea {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--linea);
+  border-radius: 4px;
+  font: inherit;
+  resize: vertical;
+}
+
+.form-comentario textarea:focus-visible {
+  outline: 3px solid var(--latón);
+  outline-offset: 2px;
+}
+
+.btn--lleno {
+  align-self: flex-start;
+  padding: 0.6rem 1rem;
+  background: var(--acento);
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.btn--lleno:hover {
+  background: var(--acento-oscuro);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .estado.cargando::before {
     animation: none;

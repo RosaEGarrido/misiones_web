@@ -103,9 +103,50 @@ export function renderBiblioteca(biblioteca, pestana) {
             <div class="libro__acciones">
               <button class="btn" data-accion="${otra}">${textoOtra}</button>
               <button class="btn" data-accion="quitar">Quitar</button>
+              ${pestana === "leido" ? `<button class="btn btn--ancho" data-accion="abrir">Comentarios${libro.comentarios?.length ? ` (${libro.comentarios.length})` : ""}</button>` : ""}
             </div>
           </div>
         </article>`;
     })
     .join("");
+}
+
+export function renderDetalle(libro) {
+  const comentarios = [...(libro.comentarios ?? [])].reverse();
+
+  document.querySelector("#detalle-titulo").textContent = libro.titulo;
+  document.querySelector("#detalle-contenido").innerHTML = `
+    <div class="detalle__cuerpo">
+      ${portadaHTML(libro)}
+      <div>
+        <p class="libro__meta">${escapar(libro.autor)}${libro.anio ? ` · ${libro.anio}` : ""}</p>
+        ${estrellasHTML(libro.puntuacion)}
+      </div>
+    </div>
+
+    <h3 class="detalle__subtitulo">Mis comentarios (${comentarios.length})</h3>
+    <ul class="comentarios">
+      ${
+        comentarios.length === 0
+          ? `<li class="comentarios__vacio">Aún no has escrito ningún comentario.</li>`
+          : comentarios
+              .map(
+                (c) => `
+        <li class="comentario">
+          <p>${escapar(c.texto)}</p>
+          <div class="comentario__pie">
+            <time>${new Date(c.fecha).toLocaleDateString("es-ES")}</time>
+            <button class="btn-texto" data-borrar="${c.fecha}">Borrar</button>
+          </div>
+        </li>`
+              )
+              .join("")
+      }
+    </ul>
+
+    <form id="form-comentario" class="form-comentario">
+      <label for="texto-comentario">Añadir comentario</label>
+      <textarea id="texto-comentario" rows="3" maxlength="500" required></textarea>
+      <button type="submit" class="btn btn--lleno">Guardar comentario</button>
+    </form>`;
 }
