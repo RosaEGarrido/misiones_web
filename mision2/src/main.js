@@ -2,7 +2,6 @@ import "./style.css";
 import { buscarLibros } from "./api.js";
 import { leerCache, guardarCache } from "./cache.js";
 import {
-  obtenerBiblioteca,
   estadoDe,
   guardarEnBiblioteca,
   quitarDeBiblioteca,
@@ -13,7 +12,6 @@ import {
   mostrarMensaje,
   limpiarEstado,
   renderResultados,
-  renderBiblioteca,
 } from "./ui.js";
 
 const form = document.querySelector("#form-busqueda");
@@ -21,12 +19,9 @@ const inputQ = document.querySelector("#q");
 const checkPortada = document.querySelector("#solo-portada");
 const selectOrden = document.querySelector("#orden");
 const contResultados = document.querySelector("#resultados");
-const contBiblioteca = document.querySelector("#biblioteca");
-const pestanas = document.querySelectorAll(".pestana");
 
 let resultados = [];
 let ultimaBusqueda = 0;
-let pestanaActiva = "quiero";
 
 function aplicarFiltros(libros) {
   let lista = libros.filter((libro) => !checkPortada.checked || libro.portada);
@@ -56,10 +51,6 @@ function pintarResultados() {
 
   limpiarEstado();
   renderResultados(lista);
-}
-
-function pintarBiblioteca() {
-  renderBiblioteca(obtenerBiblioteca(), pestanaActiva);
 }
 
 function idiomasElegidos() {
@@ -92,6 +83,7 @@ async function buscar(query) {
 
     pintarResultados();
   } catch (error) {
+    if (numero !== ultimaBusqueda) return;
     console.error(error);
     mostrarError(
       "No se pudieron cargar los libros. Comprueba tu conexión e inténtalo de nuevo."
@@ -100,14 +92,13 @@ async function buscar(query) {
 }
 
 function cambiarEstado(libro, accion) {
-  if (accion === "quitar" || estadoDe(libro.id) === accion) {
+  if (estadoDe(libro.id) === accion) {
     quitarDeBiblioteca(libro.id);
   } else {
     guardarEnBiblioteca(libro, accion);
   }
 
-  pintarBiblioteca();
-  if (resultados.length > 0) pintarResultados();
+  pintarResultados();
 }
 
 form.addEventListener("submit", (e) => {
@@ -137,22 +128,3 @@ contResultados.addEventListener("click", (e) => {
   const libro = resultados.find((l) => l.id === id);
   if (libro) cambiarEstado(libro, boton.dataset.accion);
 });
-
-contBiblioteca.addEventListener("click", (e) => {
-  const boton = e.target.closest("[data-accion]");
-  if (!boton) return;
-
-  const id = boton.closest(".item").dataset.id;
-  const libro = obtenerBiblioteca().find((l) => l.id === id);
-  if (libro) cambiarEstado(libro, boton.dataset.accion);
-});
-
-pestanas.forEach((pestana) => {
-  pestana.addEventListener("click", () => {
-    pestanaActiva = pestana.dataset.tab;
-    pestanas.forEach((p) => p.classList.toggle("activa", p === pestana));
-    pintarBiblioteca();
-  });
-});
-
-pintarBiblioteca();

@@ -17,6 +17,17 @@ function portadaHTML(libro) {
   return `<div class="sin-portada">${escapar(libro.titulo)}</div>`;
 }
 
+function estrellasHTML(puntuacion = 0) {
+  const estrellas = [1, 2, 3, 4, 5]
+    .map(
+      (n) =>
+        `<button class="estrella ${n <= puntuacion ? "llena" : ""}" data-estrella="${n}" aria-label="${n} de 5 estrellas">★</button>`
+    )
+    .join("");
+
+  return `<div class="estrellas" role="group" aria-label="Puntuación">${estrellas}</div>`;
+}
+
 export function mostrarCargando() {
   estado.className = "estado cargando";
   estado.textContent = "Buscando libros…";
@@ -83,17 +94,18 @@ export function renderBiblioteca(biblioteca, pestana) {
       const textoOtra = pestana === "quiero" ? "Ya lo leí" : "Quiero leer";
 
       return `
-        <div class="item" data-id="${escapar(libro.id)}">
+        <article class="libro" data-id="${escapar(libro.id)}">
           ${portadaHTML(libro)}
-          <div>
-            <p class="item__titulo">${escapar(libro.titulo)}</p>
-            <p class="item__autor">${escapar(libro.autor)}</p>
+          <div class="libro__cuerpo">
+            <h3 class="libro__titulo">${escapar(libro.titulo)}</h3>
+            <p class="libro__meta">${escapar(libro.autor)}</p>
+            ${pestana === "leido" ? estrellasHTML(libro.puntuacion) : ""}
+            <div class="libro__acciones">
+              <button class="btn" data-accion="${otra}">${textoOtra}</button>
+              <button class="btn" data-accion="quitar">Quitar</button>
+            </div>
           </div>
-          <div class="item__acciones">
-            <button class="btn" data-accion="${otra}">${textoOtra}</button>
-            <button class="btn" data-accion="quitar">Quitar</button>
-          </div>
-        </div>`;
+        </article>`;
     })
     .join("");
 }

@@ -28,3 +28,11 @@ export function guardarEnBiblioteca(libro, estado) {
 export function quitarDeBiblioteca(id) {
   guardar(obtenerBiblioteca().filter((libro) => libro.id !== id));
 }
+
+export function puntuarLibro(id, puntuacion) {
+  guardar(
+    obtenerBiblioteca().map((libro) =>
+      libro.id === id ? { ...libro, puntuacion } : libro
+    )
+  );
+}

@@ -17,46 +17,41 @@
           <input id="q" type="search" placeholder="Título o autor" autocomplete="off" required />
           <button type="submit">Buscar</button>
         </form>
+        <nav class="nav">
+          <a href="index.html" aria-current="page">Buscar</a>
+          <a href="biblioteca.html">Mi biblioteca</a>
+        </nav>
       </div>
     </header>
 
     <main class="layout">
-      <section class="resultados" aria-label="Resultados de búsqueda">
-        <fieldset class="idiomas">
-          <legend>Idiomas</legend>
-          <label><input type="checkbox" name="idioma" value="spa" /> Español</label>
-          <label><input type="checkbox" name="idioma" value="eng" /> Inglés</label>
-          <label><input type="checkbox" name="idioma" value="fre" /> Francés</label>
-          <label><input type="checkbox" name="idioma" value="ger" /> Alemán</label>
-          <label><input type="checkbox" name="idioma" value="cat" /> Catalán</label>
-        </fieldset>
-        <div class="barra">
-          <label class="check">
-            <input type="checkbox" id="solo-portada" />
-            Solo con portada
-          </label>
-          <label class="orden">
-            Ordenar por
-            <select id="orden">
-              <option value="relevancia">Relevancia</option>
-              <option value="anio-desc">Más recientes</option>
-              <option value="anio-asc">Más antiguos</option>
-              <option value="ediciones">Más ediciones</option>
-            </select>
-          </label>
-        </div>
-        <div id="estado" class="estado" role="status" aria-live="polite"></div>
-        <div id="resultados" class="rejilla"></div>
-      </section>
+      <fieldset class="idiomas">
+        <legend>Idiomas</legend>
+        <label><input type="checkbox" name="idioma" value="spa" /> Español</label>
+        <label><input type="checkbox" name="idioma" value="eng" /> Inglés</label>
+        <label><input type="checkbox" name="idioma" value="fre" /> Francés</label>
+        <label><input type="checkbox" name="idioma" value="ger" /> Alemán</label>
+        <label><input type="checkbox" name="idioma" value="cat" /> Catalán</label>
+      </fieldset>
 
-      <aside class="biblioteca" aria-label="Mi biblioteca">
-        <h2>Mi biblioteca</h2>
-        <div class="pestanas" role="tablist">
-          <button class="pestana activa" data-tab="quiero" role="tab">Quiero leer</button>
-          <button class="pestana" data-tab="leido" role="tab">Leídos</button>
-        </div>
-        <div id="biblioteca" class="lista"></div>
-      </aside>
+      <div class="barra">
+        <label class="check">
+          <input type="checkbox" id="solo-portada" />
+          Solo con portada
+        </label>
+        <label class="orden">
+          Ordenar por
+          <select id="orden">
+            <option value="relevancia">Relevancia</option>
+            <option value="anio-desc">Más recientes</option>
+            <option value="anio-asc">Más antiguos</option>
+            <option value="ediciones">Más ediciones</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="estado" class="estado" role="status" aria-live="polite"></div>
+      <div id="resultados" class="rejilla"></div>
     </main>
 
     <script type="module" src="/src/main.js"></script>
