@@ -1,4 +1,6 @@
 import "./style.css";
+import { obtenerDetalle } from "./api.js";
+import { leerCache, guardarCache } from "./cache.js";
 import {
   obtenerBiblioteca,
   guardarEnBiblioteca,
@@ -7,14 +9,62 @@ import {
   agregarComentario,
   borrarComentario,
 } from "./library.js";
-import { renderBiblioteca, renderDetalle } from "./ui.js";
+import { calcularEstadisticas } from "./stats.js";
+import {
+  renderBiblioteca,
+  renderDetalle,
+  renderExtra,
+  renderEstadisticas,
+} from "./ui.js";
 
 const contenedor = document.querySelector("#biblioteca");
 const pestanas = document.querySelectorAll(".pestana");
 const detalle = document.querySelector("#detalle");
+const filtroTexto = document.querySelector("#filtro-texto");
+const selectOrden = document.querySelector("#orden-biblioteca");
+const selectNota = document.querySelector("#filtro-nota");
+const cajaNota = document.querySelector("#filtro-nota-caja");
 
 let pestanaActiva = "quiero";
 let libroAbiertoId = null;
+let extraActual = { estado: "cargando" };
+let ultimaCarga = 0;
+
+function normalizar(texto) {
+  return texto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function aplicarVista(items) {
+  const buscado = normalizar(filtroTexto.value.trim());
+  const notaMinima = pestanaActiva === "leido" ? Number(selectNota.value) : 0;
+
+  let lista = items.filter((libro) => {
+    const comentarios = (libro.comentarios ?? []).map((c) => c.texto).join(" ");
+    const textoLibro = normalizar(`${libro.titulo} ${libro.autor} ${comentarios}`);
+
+    return (
+      textoLibro.includes(buscado) && (libro.puntuacion ?? 0) >= notaMinima
+    );
+  });
+
+  switch (selectOrden.value) {
+    case "titulo":
+      lista = [...lista].sort((a, b) => a.titulo.localeCompare(b.titulo, "es"));
+      break;
+    case "nota":
+      lista = [...lista].sort(
+        (a, b) => (b.puntuacion ?? 0) - (a.puntuacion ?? 0)
+      );
+      break;
+    default:
+      lista = [...lista].reverse();
+  }
+
+  return lista;
+}
 
 function pintar() {
   const biblioteca = obtenerBiblioteca();
@@ -25,7 +75,48 @@ function pintar() {
     ).length;
   });
 
-  renderBiblioteca(biblioteca, pestanaActiva);
+  cajaNota.hidden = pestanaActiva !== "leido";
+  renderEstadisticas(calcularEstadisticas(biblioteca));
+
+  const deLaPestana = biblioteca.filter(
+    (libro) => libro.estado === pestanaActiva
+  );
+  renderBiblioteca(aplicarVista(deLaPestana), pestanaActiva, deLaPestana.length > 0);
+}
+
+function pintarFicha() {
+  const libro = obtenerBiblioteca().find((l) => l.id === libroAbiertoId);
+  if (libro) renderDetalle(libro, extraActual);
+}
+
+function refrescarDetalle() {
+  pintarFicha();
+  pintar();
+}
+
+async function cargarExtra(id) {
+  const numero = ++ultimaCarga;
+  extraActual = { estado: "cargando" };
+  renderExtra(extraActual);
+
+  try {
+    const clave = `detalle:${id}`;
+    let datos = leerCache(clave);
+
+    if (!datos) {
+      datos = await obtenerDetalle(id);
+      guardarCache(clave, datos);
+    }
+
+    if (numero !== ultimaCarga) return;
+    extraActual = { estado: "ok", datos };
+  } catch (error) {
+    if (numero !== ultimaCarga) return;
+    console.error(error);
+    extraActual = { estado: "error" };
+  }
+
+  renderExtra(extraActual);
 }
 
 function abrirDetalle(id) {
@@ -33,14 +124,10 @@ function abrirDetalle(id) {
   if (!libro) return;
 
   libroAbiertoId = id;
-  renderDetalle(libro);
+  extraActual = { estado: "cargando" };
+  pintarFicha();
   detalle.showModal();
-}
-
-function refrescarDetalle() {
-  const libro = obtenerBiblioteca().find((l) => l.id === libroAbiertoId);
-  if (libro) renderDetalle(libro);
-  pintar();
+  cargarExtra(id);
 }
 
 contenedor.addEventListener("click", (e) => {
@@ -82,6 +169,11 @@ detalle.addEventListener("click", (e) => {
     return;
   }
 
+  if (e.target.closest("[data-reintentar]")) {
+    cargarExtra(libroAbiertoId);
+    return;
+  }
+
   const estrella = e.target.closest("[data-estrella]");
   if (estrella) {
     const libro = obtenerBiblioteca().find((l) => l.id === libroAbiertoId);
@@ -108,6 +200,10 @@ detalle.addEventListener("submit", (e) => {
   refrescarDetalle();
   detalle.querySelector("#texto-comentario").focus();
 });
+
+filtroTexto.addEventListener("input", pintar);
+selectOrden.addEventListener("change", pintar);
+selectNota.addEventListener("change", pintar);
 
 pestanas.forEach((pestana) => {
   pestana.addEventListener("click", () => {

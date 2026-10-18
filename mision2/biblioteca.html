@@ -21,11 +21,32 @@
     </header>
 
     <main class="layout">
-      <div class="pestanas" role="tablist">
-        <button class="pestana activa" data-tab="quiero" role="tab">Quiero leer <span class="contador"></span></button>
-        <button class="pestana" data-tab="leido" role="tab">Leídos <span class="contador"></span></button>
-      </div>
-      <div id="biblioteca" class="rejilla"></div>
+        <section id="estadisticas" class="estadisticas" aria-label="Estadísticas"></section>  
+        <div class="pestanas" role="tablist">
+            <button class="pestana activa" data-tab="quiero" role="tab">Quiero leer <span class="contador"></span></button>
+            <button class="pestana" data-tab="leido" role="tab">Leídos <span class="contador"></span></button>
+        </div>
+        <div class="barra">
+            <input id="filtro-texto" type="search" placeholder="Buscar por título, autor o comentario" aria-label="Buscar en mi biblioteca" autocomplete="off" />
+            <label class="orden">
+                Ordenar por
+                <select id="orden-biblioteca">
+                    <option value="reciente">Añadidos recientemente</option>
+                    <option value="titulo">Título (A–Z)</option>
+                    <option value="nota">Mejor nota</option>
+                </select>
+            </label>
+            <label class="orden" id="filtro-nota-caja">
+                Nota mínima
+                <select id="filtro-nota">
+                    <option value="0">Todas</option>
+                    <option value="3">3 estrellas o más</option>
+                    <option value="4">4 estrellas o más</option>
+                    <option value="5">5 estrellas</option>
+                </select>
+            </label>
+        </div>
+        <div id="biblioteca" class="rejilla"></div>
     </main>
 
     <dialog id="detalle" class="detalle">

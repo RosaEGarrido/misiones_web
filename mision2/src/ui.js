@@ -76,14 +76,14 @@ export function renderResultados(libros) {
     .join("");
 }
 
-export function renderBiblioteca(biblioteca, pestana) {
-  const items = biblioteca.filter((libro) => libro.estado === pestana);
-
+export function renderBiblioteca(items, pestana, filtrando = false) {
   if (items.length === 0) {
     contBiblioteca.innerHTML = `<p class="lista__vacia">${
-      pestana === "quiero"
-        ? "Aún no has guardado libros para leer."
-        : "Aún no has marcado ningún libro como leído."
+      filtrando
+        ? "Ningún libro coincide con la búsqueda o los filtros."
+        : pestana === "quiero"
+          ? "Aún no has guardado libros para leer."
+          : "Aún no has marcado ningún libro como leído."
     }</p>`;
     return;
   }
@@ -111,7 +111,7 @@ export function renderBiblioteca(biblioteca, pestana) {
     .join("");
 }
 
-export function renderDetalle(libro) {
+export function renderDetalle(libro, extra) {
   const comentarios = [...(libro.comentarios ?? [])].reverse();
 
   document.querySelector("#detalle-titulo").textContent = libro.titulo;
@@ -123,6 +123,8 @@ export function renderDetalle(libro) {
         ${estrellasHTML(libro.puntuacion)}
       </div>
     </div>
+
+    <div id="detalle-extra" class="detalle__extra">${extraHTML(extra)}</div>
 
     <h3 class="detalle__subtitulo">Mis comentarios (${comentarios.length})</h3>
     <ul class="comentarios">
@@ -149,4 +151,53 @@ export function renderDetalle(libro) {
       <textarea id="texto-comentario" rows="3" maxlength="500" required></textarea>
       <button type="submit" class="btn btn--lleno">Guardar comentario</button>
     </form>`;
+}
+
+function extraHTML(extra) {
+  if (!extra || extra.estado === "cargando") {
+    return `<p class="detalle__estado">Cargando información del libro…</p>`;
+  }
+
+  if (extra.estado === "error") {
+    return `<p class="detalle__estado error">No se pudo cargar la información extra. <button class="btn-texto" data-reintentar>Reintentar</button></p>`;
+  }
+
+  const { descripcion, temas, valoracion, votos } = extra.datos;
+
+  return `
+    ${
+      valoracion
+        ? `<p class="libro__meta">Valoración en OpenLibrary: <strong>${valoracion.toFixed(1).replace(".", ",")} / 5</strong> (${votos} votos)</p>`
+        : ""
+    }
+    <p class="detalle__descripcion">${
+      descripcion
+        ? escapar(descripcion)
+        : "Este libro no tiene descripción en OpenLibrary."
+    }</p>
+    ${
+      temas.length
+        ? `<ul class="temas">${temas.map((t) => `<li>${escapar(t)}</li>`).join("")}</ul>`
+        : ""
+    }`;
+}
+
+export function renderExtra(extra) {
+  const contenedor = document.querySelector("#detalle-extra");
+  if (contenedor) contenedor.innerHTML = extraHTML(extra);
+}
+
+export function renderEstadisticas(stats) {
+  const nota =
+    stats.notaMedia === null ? "–" : stats.notaMedia.toFixed(1).replace(".", ",");
+  const autor = stats.autorTop
+    ? `${escapar(stats.autorTop)} (${stats.librosAutorTop})`
+    : "–";
+
+  document.querySelector("#estadisticas").innerHTML = `
+    <div class="stat"><span class="stat__valor">${stats.leidos}</span><span class="stat__etiqueta">Leídos</span></div>
+    <div class="stat"><span class="stat__valor">${stats.porLeer}</span><span class="stat__etiqueta">Por leer</span></div>
+    <div class="stat"><span class="stat__valor">${nota}</span><span class="stat__etiqueta">Nota media</span></div>
+    <div class="stat"><span class="stat__valor stat__valor--texto">${autor}</span><span class="stat__etiqueta">Autor más leído</span></div>
+    <div class="stat"><span class="stat__valor">${stats.comentarios}</span><span class="stat__etiqueta">Comentarios</span></div>`;
 }
