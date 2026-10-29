@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi biblioteca · Estantería</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="cabecera__interior">
+        <h1>Estantería</h1>
+        <p>Los libros que has guardado y los que ya has leído.</p>
+        <nav class="nav">
+          <a href="index.html">Buscar</a>
+          <a href="biblioteca.html" aria-current="page">Mi biblioteca</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="layout">
+        <section id="estadisticas" class="estadisticas" aria-label="Estadísticas"></section>  
+        <div class="pestanas" role="tablist">
+            <button class="pestana activa" data-tab="quiero" role="tab">Quiero leer <span class="contador"></span></button>
+            <button class="pestana" data-tab="leido" role="tab">Leídos <span class="contador"></span></button>
+        </div>
+        <div class="barra">
+            <input id="filtro-texto" type="search" placeholder="Buscar por título, autor o comentario" aria-label="Buscar en mi biblioteca" autocomplete="off" />
+            <label class="orden">
+                Ordenar por
+                <select id="orden-biblioteca">
+                    <option value="reciente">Añadidos recientemente</option>
+                    <option value="titulo">Título (A–Z)</option>
+                    <option value="nota">Mejor nota</option>
+                </select>
+            </label>
+            <label class="orden" id="filtro-nota-caja">
+                Nota mínima
+                <select id="filtro-nota">
+                    <option value="0">Todas</option>
+                    <option value="3">3 estrellas o más</option>
+                    <option value="4">4 estrellas o más</option>
+                    <option value="5">5 estrellas</option>
+                </select>
+            </label>
+        </div>
+        <div id="biblioteca" class="rejilla"></div>
+    </main>
+
+    <dialog id="detalle" class="detalle">
+        <div class="detalle__cabecera">
+            <h2 id="detalle-titulo"></h2>
+            <button class="detalle__cerrar" id="detalle-cerrar" aria-label="Cerrar">×</button>
+        </div>
+        <div id="detalle-contenido"></div>
+    </dialog>
+
+    <script type="module" src="/src/biblioteca.js"></script>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estantería · Buscador de libros</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="cabecera__interior">
+        <h1>Estantería</h1>
+        <p>Busca un libro y guárdalo en tu biblioteca.</p>
+        <form id="form-busqueda" class="busqueda">
+          <input id="q" type="search" placeholder="Título o autor" autocomplete="off" required />
+          <button type="submit">Buscar</button>
+        </form>
+        <nav class="nav">
+          <a href="index.html" aria-current="page">Buscar</a>
+          <a href="biblioteca.html">Mi biblioteca</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="layout">
+      <fieldset class="idiomas">
+        <legend>Idiomas</legend>
+        <label><input type="checkbox" name="idioma" value="spa" /> Español</label>
+        <label><input type="checkbox" name="idioma" value="eng" /> Inglés</label>
+        <label><input type="checkbox" name="idioma" value="fre" /> Francés</label>
+        <label><input type="checkbox" name="idioma" value="ger" /> Alemán</label>
+        <label><input type="checkbox" name="idioma" value="cat" /> Catalán</label>
+      </fieldset>
+
+      <div class="barra">
+        <label class="check">
+          <input type="checkbox" id="solo-portada" />
+          Solo con portada
+        </label>
+        <label class="orden">
+          Ordenar por
+          <select id="orden">
+            <option value="relevancia">Relevancia</option>
+            <option value="anio-desc">Más recientes</option>
+            <option value="anio-asc">Más antiguos</option>
+            <option value="ediciones">Más ediciones</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="estado" class="estado" role="status" aria-live="polite"></div>
+      <div id="resultados" class="rejilla"></div>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
