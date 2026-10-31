@@ -45,20 +45,23 @@ export default function VistaBiblioteca({
   }
 
   function comentar(id, textoComentario) {
-    const fecha = Date.now();
-    onActualizar(id, (libro) => ({
-      comentarios: [
-        ...(libro.comentarios ?? []),
-        { texto: textoComentario, fecha },
-      ],
-    }));
-  }
+  const nuevo = {
+    id: crypto.randomUUID(),
+    texto: textoComentario,
+    fecha: Date.now(),
+  };
+  onActualizar(id, (libro) => ({
+    comentarios: [...(libro.comentarios ?? []), nuevo],
+  }));
+}
 
-  function borrarComentario(id, fecha) {
-    onActualizar(id, (libro) => ({
-      comentarios: (libro.comentarios ?? []).filter((c) => c.fecha !== fecha),
-    }));
-  }
+function borrarComentario(id, idComentario) {
+  onActualizar(id, (libro) => ({
+    comentarios: (libro.comentarios ?? []).filter(
+      (c) => (c.id ?? c.fecha) !== idComentario
+    ),
+  }));
+}
 
   return (
     <>
