@@ -1,10 +1,12 @@
 import LibroCard from "./LibroCard.jsx";
 
 export default function ResultadosLista({ libros, biblioteca, onCambiarEstado }) {
+  const estados = new Map(biblioteca.map((l) => [l.id, l.estado]));
+
   return (
     <div className="rejilla">
       {libros.map((libro) => {
-        const estado = biblioteca.find((l) => l.id === libro.id)?.estado ?? null;
+        const estado = estados.get(libro.id) ?? null;
 
         return (
           <LibroCard key={libro.id} libro={libro} mostrarMeta>
