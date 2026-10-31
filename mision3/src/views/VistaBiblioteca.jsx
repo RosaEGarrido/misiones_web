@@ -1,8 +1,7 @@
 import { useState } from "react";
 import Estadisticas from "../components/Estadisticas.jsx";
 import BarraBiblioteca from "../components/BarraBiblioteca.jsx";
-import LibroCard from "../components/LibroCard.jsx";
-import Estrellas from "../components/Estrellas.jsx";
+import TarjetaBiblioteca from "../components/TarjetaBiblioteca.jsx";
 import FichaLibro from "../components/FichaLibro.jsx";
 import { calcularEstadisticas } from "../utils/stats.js";
 import { filtrarBiblioteca } from "../utils/filtros.js";
@@ -45,23 +44,23 @@ export default function VistaBiblioteca({
   }
 
   function comentar(id, textoComentario) {
-  const nuevo = {
-    id: crypto.randomUUID(),
-    texto: textoComentario,
-    fecha: Date.now(),
-  };
-  onActualizar(id, (libro) => ({
-    comentarios: [...(libro.comentarios ?? []), nuevo],
-  }));
-}
+    const nuevo = {
+      id: crypto.randomUUID(),
+      texto: textoComentario,
+      fecha: Date.now(),
+    };
+    onActualizar(id, (libro) => ({
+      comentarios: [...(libro.comentarios ?? []), nuevo],
+    }));
+  }
 
-function borrarComentario(id, idComentario) {
-  onActualizar(id, (libro) => ({
-    comentarios: (libro.comentarios ?? []).filter(
-      (c) => (c.id ?? c.fecha) !== idComentario
-    ),
-  }));
-}
+  function borrarComentario(id, idComentario) {
+    onActualizar(id, (libro) => ({
+      comentarios: (libro.comentarios ?? []).filter(
+        (c) => (c.id ?? c.fecha) !== idComentario
+      ),
+    }));
+  }
 
   return (
     <>
@@ -99,42 +98,15 @@ function borrarComentario(id, idComentario) {
         {visibles.length === 0 && <p className="lista__vacia">{mensajeVacio}</p>}
 
         {visibles.map((libro) => (
-          <LibroCard key={libro.id} libro={libro}>
-            {pestana === "leido" && (
-              <Estrellas
-                valor={libro.puntuacion ?? 0}
-                onChange={(n) => puntuar(libro.id, n)}
-              />
-            )}
-            <div className="libro__acciones">
-              <button
-                type="button"
-                className="btn"
-                onClick={() =>
-                  onCambiarEstado(libro, pestana === "quiero" ? "leido" : "quiero")
-                }
-              >
-                {pestana === "quiero" ? "Ya lo leí" : "Quiero leer"}
-              </button>
-              <button
-                type="button"
-                className="btn"
-                onClick={() => onQuitar(libro.id)}
-              >
-                Quitar
-              </button>
-              {pestana === "leido" && (
-                <button
-                  type="button"
-                  className="btn btn--ancho"
-                  onClick={() => setAbiertoId(libro.id)}
-                >
-                  Comentarios
-                  {libro.comentarios?.length ? ` (${libro.comentarios.length})` : ""}
-                </button>
-              )}
-            </div>
-          </LibroCard>
+          <TarjetaBiblioteca
+            key={libro.id}
+            libro={libro}
+            pestana={pestana}
+            onCambiarEstado={onCambiarEstado}
+            onQuitar={onQuitar}
+            onPuntuar={puntuar}
+            onAbrir={setAbiertoId}
+          />
         ))}
       </div>
 
