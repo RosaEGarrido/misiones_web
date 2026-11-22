@@ -1,0 +1,7 @@
+{
+  "aspirantes": [
+    { "id": 1, "nombre": "Aria Vento", "email": "aria@gremio.dev", "edad": 24, "clase": "picaro" },
+    { "id": 2, "nombre": "Borin Piedra", "email": "borin@gremio.dev", "edad": 41, "clase": "guerrero" },
+    { "id": 3, "nombre": "Corrupto", "email": "esto-no-es-un-email", "edad": -5, "clase": "bardo" }
+  ]
+}
