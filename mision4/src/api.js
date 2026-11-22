@@ -28,7 +28,12 @@ export async function listarAspirantes() {
 }
 
 export async function crearAspirante(datos) {
-  const existentes = await http(`/aspirantes?email=${encodeURIComponent(datos.email)}`)
-  if (existentes.length > 0) throw new Error('Ese email ya está inscrito en el gremio')
-  return http('/aspirantes', { method: 'POST', body: JSON.stringify(datos) })
+  const res = await fetch(API + '/aspirantes', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(datos),
+  })
+  if (res.status === 409) throw new Error('Ese email ya está inscrito en el gremio')
+  if (!res.ok) throw new Error(`El servidor respondió ${res.status}`)
+  return res.json()
 }

@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -13,6 +14,8 @@ const valoresIniciales = {
   confirmar: '',
   terminos: false,
 }
+
+const ORDEN = ['nombre', 'email', 'edad', 'clase', 'password', 'confirmar', 'terminos']
 
 function Campo({ id, label, error, children }) {
   return (
@@ -34,11 +37,13 @@ export default function RegistroForm() {
     register,
     handleSubmit,
     reset,
+    setFocus,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(registroSchema),
     defaultValues: valoresIniciales,
     mode: 'onTouched',
+    shouldFocusError: false,
   })
 
   const mutation = useMutation({
@@ -49,8 +54,19 @@ export default function RegistroForm() {
     },
   })
 
+  useEffect(() => {
+    if (!mutation.isSuccess) return
+    const t = setTimeout(() => mutation.reset(), 4000)
+    return () => clearTimeout(t)
+  }, [mutation.isSuccess, mutation.reset])
+
   const onSubmit = ({ nombre, email, edad, clase }) => {
     mutation.mutate({ nombre, email, edad, clase })
+  }
+
+  const onInvalid = (errs) => {
+    const primero = ORDEN.find((n) => errs[n])
+    if (primero) setFocus(primero)
   }
 
   const props = (name) => ({
@@ -60,7 +76,7 @@ export default function RegistroForm() {
   })
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate>
+    <form onSubmit={handleSubmit(onSubmit, onInvalid)} noValidate>
       <h2>Inscripción</h2>
 
       <Campo id="nombre" label="Nombre" error={errors.nombre}>
@@ -108,7 +124,7 @@ export default function RegistroForm() {
         {mutation.isPending ? 'Inscribiendo…' : 'Inscribirme'}
       </button>
 
-      <div aria-live="polite">
+      <div>
         {mutation.isError && <p role="alert" className="error">{mutation.error.message}</p>}
         {mutation.isSuccess && <p role="status" className="ok">¡Bienvenido al gremio, {mutation.data.nombre}!</p>}
       </div>

@@ -26,4 +26,13 @@ npm run dev   # app en http://localhost:5173
 - Bonus: `listarAspirantes` valida cada elemento con `safeParse`, descarta los inválidos y avisa en la UI.
   Se ve con el registro `id: 3` de `db.json`.
 
-## Declaración de uso de IA.
+## Declaración de uso de IA
+
+- Herramienta: Claude (Anthropic).
+- Para qué la usé: generó la estructura inicial del proyecto, el código de los
+  componentes, los esquemas Zod y la API local, y me ayudó a diagnosticar errores.
+- Lo que hice yo: creé el proyecto, copié e integré los archivos, adapté los nombres
+  a mi estructura (por ejemplo, el CSS en App.css), depuré los errores que fueron
+  saliendo (ver Autopsia) y probé la app a mano.
+- Limitaciones: la mayor parte del código es generada por IA. Estoy preparando
+  cambios propios para la presentación.

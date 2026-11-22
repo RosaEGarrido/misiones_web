@@ -33,10 +33,6 @@ export const registroSchema = registroBase.refine(
   { path: ['confirmar'], error: 'Las contraseñas no coinciden' }
 )
 
-export const aspiranteSchema = z.object({
-  id: z.number(),
-  nombre: z.string().min(2),
-  email: z.email(),
-  edad: z.number().int().min(16).max(99),
-  clase: z.enum(CLASES),
-})
+export const aspiranteSchema = registroBase
+  .pick({ nombre: true, email: true, edad: true, clase: true })
+  .extend({ id: z.number() })
